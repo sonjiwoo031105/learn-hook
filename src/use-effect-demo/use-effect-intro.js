@@ -27,7 +27,7 @@ function Counter() {
     useEffect(() => {
         // 매 render 이후 제목 내용 바꾸기
         document.title = `You clicked ${count} times`;
-    });
+    }, [count]);
 
     return (
         <div>
