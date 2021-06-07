@@ -22,7 +22,7 @@ const NewsApp = (props) => {
 
     useEffect(() => {
         // 초기에 한 번만 API를 통해서 뉴스 데이터 읽어오기
-        fetch(`http://newsapi.org/v2/top-headlines?country=kr&apiKey=${apiKey}&q=${}`)
+        fetch(`http://newsapi.org/v2/top-headlines?country=kr&apiKey=${apiKey}`)
             .then(res => res.json())
             .then(data => {
                 // 데이터 설정 및 로딩 상태 갱신
