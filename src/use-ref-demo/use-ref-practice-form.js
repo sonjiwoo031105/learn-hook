@@ -18,11 +18,18 @@ function Form() {
         e.preventDefault()
 
         // 3. Submit 버튼을 누르면 콘솔에 모든 input 요소의 값을 출력하도록 하기
-        console.log(e.current)
+        console.log(
+            nameInputRef.current.value,
+            emailInputRef.current.value,
+            passwordInputRef.current.value
+        )
     }
 
     const handleReset = () => {
         // 4. Reset 버튼을 누르면 모든 input 요소의 값을 ''로 초기화하기
+        nameInputRef.current.value = '';
+        emailInputRef.current.value = '';
+        passwordInputRef.current.value = '';
     }
 
     // 1. 모든 input 요소에 ref 연결해주기
@@ -60,7 +67,7 @@ function Form() {
             <hr />
 
             <button type="submit" onClick={handleSubmit}>Submit</button>
-            <button>Reset</button>
+            <button onClick={handleReset}>Reset</button>
         </>
     )
 }
