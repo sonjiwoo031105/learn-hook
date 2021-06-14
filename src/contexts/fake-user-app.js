@@ -13,7 +13,6 @@ function LoginButton(props) {
             .then(res => res.json())
             .then(data => {
                 const login = data.results[0].login
-
                 setLoginUser({
                     picture: data.results[0].picture.large,
                     username: login.username,

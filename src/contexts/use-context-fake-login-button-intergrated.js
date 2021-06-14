@@ -3,18 +3,19 @@ import ReactDOM from "react-dom"
 
 const LoginUserContext = createContext(null)
 
-function LoginButton(props) {
-    // 비구조화 할당시, loginUser 정보가 필요하지 않으면 생략 가능 (세터 함수만 받기)
-    const { setLoginUser } = useContext(LoginUserContext)
-    const [ fetching, setFetching ] = useState(false)
+const UserButton = () => {
+    const {loginUser, setLoginUser} = useContext(LoginUserContext)
+    const [fetching, setFetching] = useState(false)
+    const [error, SetError] = useState('')
 
     const handleLogin = () => {
+        //alert('handle login')
         setFetching(true)
         fetch('https://randomuser.me/api/', { headers: { 'Content-Type': 'application/json' } })
             .then(res => res.json())
             .then(data => {
                 const login = data.results[0].login
-
+                setFetching(false)
                 setLoginUser({
                     picture: data.results[0].picture.large,
                     username: login.username,
@@ -23,33 +24,32 @@ function LoginButton(props) {
                 });
             })
     }
-
-    return (
-        fetching ?
-            <button disabled>...</button> :
-            <button onClick={handleLogin}>Login</button>
-    )
-}
-
-function LogoutButton(props) {
-    const { setLoginUser } = useContext(LoginUserContext)
-
     const handleLogout = () => {
         setLoginUser(null)
     }
 
-    return (
-        <button onClick={handleLogout}>Logout</button>
-    )
-}
+    if(fetching)
+        return (<div>fetching...</div>)
 
-function UserInfo(props) {
-    const { loginUser } = useContext(LoginUserContext)
+    if(error)
+        return (<div>{error.message}</div>)
 
-    return (
+
+    return(
         <div>
-            <img src={loginUser.picture} style={{ borderRadius: '50%' }}/>
-            <p>email: {loginUser.email}</p>
+            {
+                loginUser === null ?
+                    <button onClick={handleLogin}>Login</button>
+                    :
+                    <div>
+                        <button onClick={handleLogout}>Logout</button>
+                        <img src={loginUser.picture} style={{ borderRadius: '50%' }}/>
+                        <span>username: {loginUser.username}</span>
+                        <span>email: {loginUser.email}</span>
+                        <span>cell: {loginUser.cell}</span>
+                    </div>
+
+            }
         </div>
     )
 }
@@ -59,18 +59,7 @@ function App() {
 
     return (
         <LoginUserContext.Provider value={ { loginUser, setLoginUser } }>
-            {
-                loginUser === null ?
-                    <div>
-                        <LoginButton />
-                    </div>
-                    :
-                    <div>
-                        <h2>"{loginUser.username}"님 환영합니다.</h2>
-                        <UserInfo />
-                        <LogoutButton />
-                    </div>
-            }
+            <UserButton />
         </LoginUserContext.Provider>
     )
 }

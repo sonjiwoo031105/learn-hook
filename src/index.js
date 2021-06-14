@@ -3,4 +3,4 @@
 //import './use-state-demo/use-state-object-manage-caveat'
 //import './use-state-demo/theme-component-demo'
 //import './use-state-demo/todo-app-demo'
-import './contexts/use-context-fake-login-button-intergrated'
+import './use-reducer-demo/use-reducer-todo-app-2'
